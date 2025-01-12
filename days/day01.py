@@ -6,7 +6,27 @@ class Day01(Day):
         super().__init__(*args, **kwargs)
 
     def part1(self) -> str:
-        return "dayXX 1"
+        return str(sum(self.parse()))
 
     def part2(self) -> str:
-        return "dayXX 2"
+        vals = self.parse()
+        curr = 0
+        seen = {curr}
+        while True:
+            for v in vals:
+                curr += v
+                if curr in seen:
+                    return str(curr)
+                seen.add(curr)
+
+    def parse(self) -> list[int]:
+        ret = []
+        for line in self.data_lines():
+            val = int(line[1:])
+            if line.startswith('+'):
+                ret.append(val)
+            elif line.startswith('-'):
+                ret.append(-val)
+            else:
+                raise ValueError(line)
+        return ret
